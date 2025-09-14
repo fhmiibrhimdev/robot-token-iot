@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="msapplication-tap-highlight" content="no">
+    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&family=Quantico:ital@1&display=swap" rel="stylesheet">
+
+<title>Arducam Mini + ESP8266 Video Demo</title>
+
+<meta name="description" content="< DESCRIPTION >">
+<meta name="author" content="< AUTHOR >">
+
+<!-- Compiled and minified CSS -->
+<link rel="stylesheet" href="materialize/css/materialize.min.css">
+<link rel="stylesheet" href="card.css">
+<!-- Compiled and minified JavaScript -->
+<script src="materialize/js/jquery-2.1.1.min.js"></script>
+<script src="materialize/js/materialize.min.js"></script>
+
+<style>
+body {overflow-x: hidden; font-family: "微软雅黑";}
+</style>
+
+</head>
+<body class="bg-gray-700" style="font-family: 'Inter', sans-serif;
+font-family: 'Quantico', sans-serif;">
+<script type="text/javascript">
+  function capture(ql){
+    $("#captureBtns a").each(function(i, o){
+      $(o).addClass("disabled");
+    });
+    $.get("http://" + $("#cameraIP").val() + "/?plen=" +
+     $("#cameraPLEN").val() + "&ql=" + ql + "&t=" + Math.random(), function(result){
+      $("input[name='captureBtn']").addClass("disabled");
+      if (result.indexOf("Server is running!") == -1){
+        alert("Please input the correct 'Camera IP Address'!");
+        $("#captureBtns a").each(function(i, o){
+          $(o).removeClass("disabled");
+        });
+      }else{
+        $("#capturePic").attr("src", "http://" + $("#cameraIP").val() + "/stream");
+        if (ql<4) {
+          $("#capturePic").attr("width", "640");
+          $("#capturePic").attr("height", "480");
+        }else{
+          $("#capturePic").attr("width", "auto");
+          $("#capturePic").attr("height", "auto");
+        }
+      }
+    });
+  }
+</script>
+<div class="max-w-lg mx-auto mt-10">
+<div class="container">
+  <div class="row">
+    <div class="card">
+      
+      <div class="brand-logo center"> <p class="text-[11px] font-extrabold text-yellow-500">ARDUCAM ESP8266 <span id="lengthToken"></span></p></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="input-field col s12 m4 offset-m4">
+      <input id="cameraIP" type="text" class="validate" value="192.168.4.1">
+      <label for="cameraIP">Camera IP Address</label>
+    </div>
+  </div>
+  <div class="row center">
+    <span class="red accent-3" style="border-radius:3px ;">
+      First Connect to WIFI <b>arducam_esp8266</b>.
+    </span>
+  </div>
+  <div class="bg-gray-600 p-4 rounded-lg shadow-inner shadow-black">
+  <div id="captureBtns" class="grid grid-cols-3 gap gap-2 font-bold">
+    
+      <button class="bg-gray-400 hover:bg-gray-500 shadow-md shadow-black rounded-lg w-full py-2" onclick="capture(0)">160x120</button>
+      <button class="bg-gray-400 hover:bg-gray-500 shadow-md shadow-black rounded-lg w-full py-2" onclick="capture(1)">176x144</button>
+      <button class="bg-gray-400 hover:bg-gray-500 shadow-md shadow-black rounded-lg w-full py-2" onclick="capture(2)">320x240</button>
+      <button class="bg-gray-400 hover:bg-gray-500 shadow-md shadow-black rounded-lg w-full py-2" onclick="capture(3)">352x288</button>
+      <button class="bg-gray-400 hover:bg-gray-500 shadow-md shadow-black rounded-lg w-full py-2" onclick="capture(4)">640x480</button>
+    
+    
+      <button class="bg-gray-400 hover:bg-gray-500 shadow-md shadow-black rounded-lg w-full py-2" onclick="capture(5)">800x600</button>
+      <button class="bg-gray-400 hover:bg-gray-500 shadow-md shadow-black rounded-lg w-full py-2" onclick="capture(6)">1024x768</button>
+      <button class="bg-gray-400 hover:bg-gray-500 shadow-md shadow-black rounded-lg w-full py-2" onclick="capture(7)">1280x1024</button>
+      <button class="bg-gray-400 hover:bg-gray-500 shadow-md shadow-black rounded-lg w-full py-2" onclick="capture(8)">1600x1200</button>
+    
+  </div>
+  </div>
+</div>
+</div>
+</body>
+</html>
